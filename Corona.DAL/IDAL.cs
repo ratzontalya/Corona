@@ -9,15 +9,25 @@ namespace DAL
 {
     public interface IDAL
     {
+        #region SELECT
         IEnumerable<Patient> GetPatients();
         Patient GetPatientById(int id);
+        int GetUnVaccinedPatients();
+        List<Vaccine> GetVaccinesOfPatient(int id);
+        #endregion
+        #region DELETE
         bool DeletePatient(int id);
+        #endregion
+        #region UPDATE
         bool UpdatePatient(Patient patient);
         bool UpdateVaccineOfPatient(Vaccine vaccine);
-        String GetManufacturerName(int id);
-        List<Vaccine> getVaccinesOfPatient(int id);
+        #endregion
+        #region CREATE
         bool CreatePatient(Patient patient);
         Vaccine CreateVaccineForPatient(Vaccine vaccine);
+        #endregion
+        #region GRAPH
         List<int> GetSickPatientsInLastMonth();
+        #endregion
     }
 }

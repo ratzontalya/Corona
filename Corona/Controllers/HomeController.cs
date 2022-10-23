@@ -22,8 +22,6 @@ namespace Corona.Controllers
             }
             return View(result);
         }
-
-        // GET: Patients/Edit/5
         public ActionResult Edit(int id)
         {
             IBL bl = new BL.BL();
@@ -85,7 +83,7 @@ namespace Corona.Controllers
         {
             IBL bl = new BL.BL();
             List<VaccineViewModel> vaccineViewModels = new List<VaccineViewModel>();
-            List<Vaccine> vaccines = bl.getVaccinesOfPatient(id);
+            List<Vaccine> vaccines = bl.GetVaccinesOfPatient(id);
             foreach (Vaccine item in vaccines)
             {
                 vaccineViewModels.Add(new VaccineViewModel(item));
@@ -137,18 +135,12 @@ namespace Corona.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-        // GET: Medicines/Create
         public ActionResult Create(String messageSuccessful = "", String messageError = "")
         {
             ViewBag.messageSuccessful = messageSuccessful;
             ViewBag.messageError = messageError;
             return View(new PatientViewModel(new Patient()));
         }
-
-        // POST: Medicines/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(int id, String firstName, String lastName, String phone, String telephone, DateTime sickDate, DateTime recoveryDate, String address, DateTime birthDate, String profileImage)
@@ -194,7 +186,6 @@ namespace Corona.Controllers
                 return RedirectToAction("Create", new { messageError = "There was an error" });
             }
         }
-
         public ActionResult Delete(int id)
         {
             IBL bl = new BL.BL();
@@ -210,18 +201,18 @@ namespace Corona.Controllers
         {
             IBL bl = new BL.BL();
             List<VaccineViewModel> vaccineViewModels = new List<VaccineViewModel>();
-            List<Vaccine> vaccines = bl.getVaccinesOfPatient(id);
+            List<Vaccine> vaccines = bl.GetVaccinesOfPatient(id);
             foreach (Vaccine item in vaccines)
             {
                 vaccineViewModels.Add(new VaccineViewModel(item));
             }
             return View("Details", vaccineViewModels);
         }
-
         public ActionResult Graph()
         {
             IBL bl = new BL.BL();
             List<int> res = bl.GetSickPatientsInLastMonth();
+            ViewBag.withoutVaccine = bl.GetUnVaccinedPatients();
             return View("Graph", res);
         }
 

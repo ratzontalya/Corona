@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<int>
 @{
     ViewBag.Title = "Graph";
+    Layout = "~/Views/Shared/_ManagementLayout.cshtml";
 }
 
 <h2>Graph</h2>
+<h5>from @DateTime.Now.AddMonths(-1).ToString("dd-MM-yyyy") till @DateTime.Now.ToString("dd-MM-yyyy") </h5>
 
 <!DOCTYPE html>
 <html>
@@ -31,11 +33,12 @@
             options: {
                 legend: { display: false },
                 scales: {
-                    yAxes: [{ ticks: { min: Math.min(jsArray), max: Math.max(jsArray) } }],
+                    yAxes: [{ ticks: { min: Math.min(...jsArray), max: Math.max(...jsArray) } }],
                 }
             }
         });
     </script>
-
+    <h5>Patients without vaccine: </h5>
+    <p>@ViewBag.withoutVaccine</p>
 </body>
 </html>

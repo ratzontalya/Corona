@@ -111,7 +111,6 @@ namespace DAL
                 return result;
             }
         }
-
         public Patient GetPatientById(int id)
         {
             Patient result = null;
@@ -154,6 +153,55 @@ namespace DAL
                 return result;
             }
         }
+        public List<Vaccine> GetVaccinesOfPatient(int id)
+        {
+            List<Vaccine> result = new List<Vaccine>();
+            string query = $"SELECT * FROM Vaccines WHERE id={id}";
+            if (OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    result.Add(new Vaccine
+                    {
+                        id = int.Parse(dataReader["id"] + ""),
+                        autoId = int.Parse(dataReader["autoId"] + ""),
+                        manufacturer = dataReader["manufacturer"] + "",
+                        date = (DateTime)dataReader["date"],
+                    });
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                CloseConnection();
+
+                //return list to be displayed
+                return result;
+            }
+            else
+            {
+                return result;
+            }
+        }
+        public int GetUnVaccinedPatients() {
+            int result = 0;
+            if (OpenConnection() == true)
+            {
+                    string query = $"SELECT COUNT(*) AS withoutVaccine FROM(SELECT `id` FROM patients WHERE `active`= true AND id NOT IN(SELECT distinct `id` FROM patients NATURAL JOIN vaccines where `active` = true)) unvaccined";
+                    MySqlCommand cmd = new MySqlCommand(query, connection); 
+                    result = int.Parse(cmd.ExecuteScalar().ToString());
+            }
+            //close Connection
+            CloseConnection();
+            return result;
+        }
+        #endregion
+        #region DELETE
         public bool DeletePatient(int id)
         {
             try
@@ -173,7 +221,8 @@ namespace DAL
                 return false;
             }
         }
-
+        #endregion
+        #region UPDATE
         public bool UpdatePatient(Patient patient)
         {
             string query = $"UPDATE patients SET firstName='{patient.firstName}', lastName='{patient.lastName}',birthDate='{patient.birthDate.ToString("yyyy/MM/dd HH:mm:ss")}', address='{patient.address}', phone='{patient.phone}', telephone='{patient.telephone}', sickDate='{patient.sickDate.ToString("yyyy/MM/dd HH:mm:ss")}', recoveryDate='{patient.recoveryDate.ToString("yyyy/MM/dd HH:mm:ss")}', profileImage='{patient.profileImage}' " +
@@ -212,72 +261,8 @@ namespace DAL
                 return false;
             }
         }
-        public String GetManufacturerName(int id)
-        {
-
-            String result = null;
-            string query = $"SELECT fullName FROM manufacturers WHERE id = {id}";
-            if (OpenConnection() == true)
-            {
-                //Create Command
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                //Create a data reader and Execute the command
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-                if (dataReader.Read())
-                {
-                    result = dataReader["firstName"] + "";
-                }
-
-                //close Data Reader
-                dataReader.Close();
-
-                //close Connection
-                CloseConnection();
-
-                //return list to be displayed
-                return result;
-            }
-            else
-            {
-                return result;
-            }
-        }
         #endregion
-        public List<Vaccine> getVaccinesOfPatient(int id)
-        {
-            List<Vaccine> result = new List<Vaccine>();
-            string query = $"SELECT * FROM Vaccines WHERE id={id}";
-            if (OpenConnection() == true)
-            {
-                //Create Command
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                //Create a data reader and Execute the command
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-                while (dataReader.Read())
-                {
-                    result.Add(new Vaccine
-                    {
-                        id = int.Parse(dataReader["id"] + ""),
-                        autoId = int.Parse(dataReader["autoId"] + ""),
-                        manufacturer = dataReader["manufacturer"] + "",
-                        date = (DateTime)dataReader["date"],
-                    });
-                }
-
-                //close Data Reader
-                dataReader.Close();
-
-                //close Connection
-                CloseConnection();
-
-                //return list to be displayed
-                return result;
-            }
-            else
-            {
-                return result;
-            }
-        }
+        #region CREATE
         public bool CreatePatient(Patient patient)
         {
 
@@ -320,44 +305,28 @@ namespace DAL
                 return vaccine;
             }
         }
-
+        #endregion
+        #region GRAPH
         public List<int> GetSickPatientsInLastMonth()
         {
             DateTime start = DateTime.Now.AddMonths(-1);
             DateTime end = DateTime.Now;
             List<int> result = new List<int>();
-            while (end != start) { 
-            string query = $"SELECT date, SUM(*) AS sickNum " +
-                $"FROM patients" +
-                $"where active = {true} AND sickDate =< '{start:yyyy-MM-dd}' AND recoveryDate > '{start:yyyy-MM-dd}' " +
-                $"GROUP BY date";
-                if (OpenConnection() == true)
-                {
+            if (OpenConnection() == true) {
+                while (end != start) {
+                    string query = $"SELECT COUNT(*) AS sickNum " +
+                        $"FROM patients " +
+                        $"where active = {true} AND sickDate <= '{start:yyyy-MM-dd}' AND recoveryDate > '{start:yyyy-MM-dd}' ";
                     MySqlCommand cmd = new MySqlCommand(query, connection);
-                    MySqlDataReader dataReader = cmd.ExecuteReader();
-                    int prev = 0;
-                    while (dataReader.Read())
-                    {
-                        if (((DateTime)dataReader["date"]).Day == prev + 1)
-                        {
-                            result.Add((int)dataReader["sickNum"]);
-                        }
-                        else
-                        {
-                            result.Add(0);
-                        }
-                        prev += 1;
-                    }
-                    //close Data Reader
-                    dataReader.Close();
+                    result.Add(int.Parse(cmd.ExecuteScalar().ToString()));
+                    start = start.AddDays(1);
                 }
-
-
-                //close Connection
-                CloseConnection();
             }
+            //close Connection
+            CloseConnection();
             return result;
         }
+        #endregion
     }
 
 }

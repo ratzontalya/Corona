@@ -107,10 +107,6 @@ C:\Users\User\Desktop\Corona Project\Corona\Corona\bin\System.Numerics.Vectors.x
 C:\Users\User\Desktop\Corona Project\Corona\Corona\bin\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\User\Desktop\Corona Project\Corona\Corona\bin\Corona.BL.dll.config
 C:\Users\User\Desktop\Corona Project\Corona\Corona\bin\System.Runtime.CompilerServices.Unsafe.xml
-C:\Users\User\Desktop\Corona\Corona\bin\grpc_csharp_ext.x86.dll
-C:\Users\User\Desktop\Corona\Corona\bin\grpc_csharp_ext.x64.dll
-C:\Users\User\Desktop\Corona\Corona\bin\libgrpc_csharp_ext.x64.so
-C:\Users\User\Desktop\Corona\Corona\bin\libgrpc_csharp_ext.x64.dylib
 C:\Users\User\Desktop\Corona\Corona\bin\Corona.dll.config
 C:\Users\User\Desktop\Corona\Corona\bin\Corona.dll
 C:\Users\User\Desktop\Corona\Corona\bin\Corona.pdb
