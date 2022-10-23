@@ -1,0 +1,108 @@
+﻿@model IEnumerable<PatientViewModel>
+@using BE
+@using Corona.Models
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_ManagementLayout.cshtml";
+}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="~/css/DeleteModalStyle.css">
+
+<div class="square-not-flip" onclick="location.href='@Url.Action("Create", "Home")'">
+    <div class='square2' data-image="">
+        <div class="square-container">
+            <a href="~/Home/Create" class="social-button" style="height:100px;width:100px;line-height:100px;font-size:50px;margin-left:-100px;">
+                <span class="fa fa-lg fa-plus"></span>
+            </a>
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    @foreach (PatientViewModel item in Model)
+    {
+        <div class="square-flip">
+            <div class='square' data-image="">
+                <div class="square-container">
+                    @if (item.profileImage != null)
+                    {@Html.DisplayRoundImage(item.profileImage.Replace(@"\\", @"\"), 150)}
+                    <br />
+                    @Html.DisplayHeader(item.firstName + " " + item.lastName, 3)
+                </div>
+                <div class="flip-overlay"></div>
+            </div>
+            <div class='square2' data-image="">
+                <div class="square-container2">
+                    @*@Html.DisplayRoundImage(item.ImagePath, 100)*@
+                    <br />
+                    <b>@Html.LabelFor(modelItem => item.firstName): </b>@Html.DisplayTextFor(modelItem => item.firstName)
+                    <hr />
+                    <b>@Html.LabelFor(modelItem => item.lastName): </b>@Html.DisplayTextFor(modelItem => item.lastName)
+                    <hr />
+                    <b>@Html.LabelFor(modelItem => item.birthDate) :</b>@Html.Label(item.birthDate.ToString("dd-MM-yyyy"))
+                    <hr />
+                    <b>@Html.LabelFor(modelItem => item.address): </b>@Html.DisplayTextFor(modelItem => item.address)
+                    <hr />
+                    <b>@Html.LabelFor(modelItem => item.phone) :</b>@Html.Label(item.phone)
+                    <hr />
+                    <b>@Html.LabelFor(modelItem => item.telephone) :</b>@Html.Label(item.telephone)
+                    <hr />
+                    <b>@Html.LabelFor(modelItem => item.sickDate) :</b>
+                    @if (item.sickDate.Year != 1)
+                    {@Html.Label(item.sickDate.ToString("dd-MM-yyyy"))}
+                else
+                { @Html.Label("No Result")}
+                    <hr />
+                    <b>@Html.LabelFor(modelItem => item.recoveryDate) :</b>
+                    @if (item.recoveryDate.Year != 1)
+                    {@Html.Label(item.recoveryDate.ToString("dd-MM-yyyy"))}
+                else
+                { @Html.Label("No Result")}
+                    <hr />
+                    <div>
+                        <button onclick="location.href = '@($"/Home/Details?id={item.id}")'" data-patient=@item style="cursor:pointer"><i class="fa fa-eye"></i></button>
+                        <button onclick="location.href = '@($"/Home/Edit?id={item.id}")'" data-patient=@item style="cursor:pointer"><i class="fa fa-edit"></i></button>
+                        <button onclick="buttonDelete(@item.id)" style="cursor:pointer"><i class="fa fa-trash"></i></button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+<div id="modalDelete" class="modal">
+    <span onclick="document.getElementById('modalDelete').style.display='none'" class="close" title="Close Modal">×</span>
+    <form class="modal-content" action="/action_page.php">
+        <div class="container">
+            <h1>Delete Account</h1>
+            <p>Are you sure you want to delete your account?</p>
+
+            <div class="clearfix">
+                <button type="button" onclick="document.getElementById('modalDelete').style.display='none'" class="modalButton cancelbtn">Cancel</button>
+                <button type="button" id="deleteButton" class="modalButton deletebtn">Delete</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    // Get the modal
+    var modal = document.getElementById('modalDelete');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    function buttonDelete(id) {
+        console.log(document.getElementById("deleteButton"));
+        document.getElementById('modalDelete').style.display = 'block';
+        document.getElementById("deleteButton").setAttribute('onclick', `location.href = '/Home/Delete?id=${id}'; document.getElementById('modalDelete').style.display='none'`);
+        console.log(document.getElementById("deleteButton"));
+
+    }
+</script>
+<br />
+<br />
+<br />

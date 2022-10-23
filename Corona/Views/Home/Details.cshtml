@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Corona.Models.VaccineViewModel>
+@using BE
+@using Corona.Models
+@{
+    ViewBag.Title = "Vaccines Details";
+    Layout = "~/Views/Shared/_ManagementLayout.cshtml";
+}
+<link rel="stylesheet" href="~/css/ModalStyle.css">
+
+<div id="modalUpdate" class="modal">
+    <span onclick="document.getElementById('modalUpdate').style.display = 'none'; location.href = '@($"/Home/Index")'" class="close" title="Close Modal">×</span>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Vaccines Of Patient</h2>
+        </div>
+        @foreach (VaccineViewModel item in Model)
+        {
+            <div class="modal-body">
+                <div class="form-group">
+                    <b>@Html.LabelFor(modelItem => item.date): </b>
+                    @Html.Label(item.date.ToShortDateString())
+                    <b>@Html.LabelFor(modelItem => item.manufacturer): </b>
+                    @Html.DisplayTextFor(modelItem => item.manufacturer)
+                </div>
+            </div>
+        }
+        }
+    </div>
+
+
+</div>

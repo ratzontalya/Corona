@@ -1,0 +1,6 @@
+C:\Users\User\Desktop\Corona Project\Corona\Corona.BE\bin\Debug\Corona.BE.dll
+C:\Users\User\Desktop\Corona Project\Corona\Corona.BE\bin\Debug\Corona.BE.pdb
+C:\Users\User\Desktop\Corona Project\Corona\Corona.BE\obj\Debug\BE.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\Corona Project\Corona\Corona.BE\obj\Debug\BE.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Corona Project\Corona\Corona.BE\obj\Debug\Corona.BE.dll
+C:\Users\User\Desktop\Corona Project\Corona\Corona.BE\obj\Debug\Corona.BE.pdb
