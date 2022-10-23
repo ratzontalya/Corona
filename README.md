@@ -16,8 +16,11 @@
 <img width="948" alt="image" src="https://user-images.githubusercontent.com/57313043/197389257-a2f14408-e61b-406b-9530-c3f8bc9ae2ba.png">
 
 # Technologies
-FrontEnd: Html, CSS, Javascript
-BackEnd: C#
-Database: MySql
+FrontEnd: Html, CSS, Javascript.
+/n
+BackEnd: C#.
+/n
+Database: MySql.
+/n
 localhost web.
 
