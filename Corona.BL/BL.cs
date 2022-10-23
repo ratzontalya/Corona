@@ -16,9 +16,9 @@ namespace BL
         {
             return dal.GetPatients();
         }
-        public Patient GetPatientById(int id)
+        public Patient GetPatientById(int id, bool active = true)
         {
-            return dal.GetPatientById(id);
+            return dal.GetPatientById(id, active);
         }
         public List<Vaccine> GetVaccinesOfPatient(int id)
         {
@@ -43,6 +43,10 @@ namespace BL
         public bool UpdateVaccineOfPatient(Vaccine vaccine)
         {
             return dal.UpdateVaccineOfPatient(vaccine);
+        }
+        public bool RecoverPatient(int id)
+        {
+            return dal.RecoverPatient(id);
         }
         #endregion
         #region CREATE

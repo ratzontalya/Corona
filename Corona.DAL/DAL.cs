@@ -111,10 +111,10 @@ namespace DAL
                 return result;
             }
         }
-        public Patient GetPatientById(int id)
+        public Patient GetPatientById(int id, bool active = true)
         {
             Patient result = null;
-            string query = $"SELECT * FROM patients WHERE id = {id}";
+            string query = $"SELECT * FROM patients WHERE `active` = {active} AND id = {id}";
             if (OpenConnection() == true)
             {
                 //Create Command
@@ -223,6 +223,25 @@ namespace DAL
         }
         #endregion
         #region UPDATE
+        public bool RecoverPatient(int id)
+        {
+            string query = $"UPDATE patients SET `active`= true " + $"where id = {id}";
+            try
+            {
+                if (OpenConnection() == true)
+                {
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+                    cmd.ExecuteNonQuery();
+                    CloseConnection();
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public bool UpdatePatient(Patient patient)
         {
             string query = $"UPDATE patients SET firstName='{patient.firstName}', lastName='{patient.lastName}',birthDate='{patient.birthDate.ToString("yyyy/MM/dd HH:mm:ss")}', address='{patient.address}', phone='{patient.phone}', telephone='{patient.telephone}', sickDate='{patient.sickDate.ToString("yyyy/MM/dd HH:mm:ss")}', recoveryDate='{patient.recoveryDate.ToString("yyyy/MM/dd HH:mm:ss")}', profileImage='{patient.profileImage}' " +

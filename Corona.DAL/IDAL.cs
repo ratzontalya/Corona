@@ -11,7 +11,7 @@ namespace DAL
     {
         #region SELECT
         IEnumerable<Patient> GetPatients();
-        Patient GetPatientById(int id);
+        Patient GetPatientById(int id, bool active = true);
         int GetUnVaccinedPatients();
         List<Vaccine> GetVaccinesOfPatient(int id);
         #endregion
@@ -21,6 +21,7 @@ namespace DAL
         #region UPDATE
         bool UpdatePatient(Patient patient);
         bool UpdateVaccineOfPatient(Vaccine vaccine);
+        bool RecoverPatient(int id);
         #endregion
         #region CREATE
         bool CreatePatient(Patient patient);

@@ -38,7 +38,7 @@ namespace Corona.Controllers
         {
             try
             {
-                if (recoveryDate <= sickDate)
+                if (recoveryDate < sickDate)
                 {
                     ModelState.AddModelError("recoveryDate", "Invalid Date Range");
                     ModelState.AddModelError("sickDate", "Invalid Date Range");
@@ -145,7 +145,7 @@ namespace Corona.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(int id, String firstName, String lastName, String phone, String telephone, DateTime sickDate, DateTime recoveryDate, String address, DateTime birthDate, String profileImage)
         {
-            if (recoveryDate <= sickDate)
+            if (recoveryDate < sickDate)
             {
                 ModelState.AddModelError("recoveryDate", "Invalid Date Range");
                 ModelState.AddModelError("sickDate", "Invalid Date Range");
@@ -165,21 +165,34 @@ namespace Corona.Controllers
                 lastName = lastName,
                 id = id,
                 phone = phone,
-                profileImage = profileImage,
+                profileImage = null,
                 recoveryDate = recoveryDate,
                 sickDate = sickDate,
                 telephone = telephone
             };
             try
             {
-                IBL bl = new BL.BL();
-                Patient exists = bl.GetPatientById(id);
-                if (exists !=null)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Create", new { messageError = "There is already patient with that ID" });
+                    IBL bl = new BL.BL();
+                    Patient exists = bl.GetPatientById(id);
+                    if (exists != null)
+                    {
+                        return RedirectToAction("Create", new { messageError = "There is already patient with that ID" });
+                    }
+                    exists = bl.GetPatientById(id, false);
+                    if (exists == null)
+                    {
+                        bool res = bl.CreatePatient(patient);
+                    }
+                    else
+                    {
+                        bool res = bl.RecoverPatient(id);
+                        res = bl.UpdatePatient(patient);
+                    }
+                    return RedirectToAction("EditVaccines", new { id = id });
                 }
-                bool res = bl.CreatePatient(patient);
-                return RedirectToAction("EditVaccines", new { id = id });
+                return View(new PatientViewModel(patient));
             }
             catch (Exception e)
             {
