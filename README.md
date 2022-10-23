@@ -15,6 +15,9 @@
 # Create
 <img width="948" alt="image" src="https://user-images.githubusercontent.com/57313043/197389257-a2f14408-e61b-406b-9530-c3f8bc9ae2ba.png">
 
+# Graph
+<img width="485" alt="image" src="https://user-images.githubusercontent.com/57313043/197393914-f8305fa0-ecc5-45cc-9a20-ecf7bcd817d8.png">
+
 # Technologies
 FrontEnd: Html, CSS, Javascript.
 BackEnd: C#.
