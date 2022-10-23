@@ -17,10 +17,7 @@
 
 # Technologies
 FrontEnd: Html, CSS, Javascript.
-/n
 BackEnd: C#.
-/n
-Database: MySql.
-/n
+Database: MySql. 
 localhost web.
 
